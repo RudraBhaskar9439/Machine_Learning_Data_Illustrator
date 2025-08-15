@@ -45,10 +45,71 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
+        font-size: 4rem;
         color: #1f77b4;
         text-align: center;
+        margin-bottom: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    .welcome-text {
+        font-size: 1.4rem;
+        color: #262730;
+        line-height: 1.8;
         margin-bottom: 2rem;
+    }
+    .features-section {
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    .features-title {
+        font-size: 2rem;
+        color: #1f77b4;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+    }
+    .feature-item {
+        font-size: 1.2rem;
+        color: #262730;
+        margin-bottom: 0.8rem;
+        padding-left: 1rem;
+    }
+    .models-section {
+        padding: 2rem;
+    }
+    .models-title {
+        font-size: 2rem;
+        color: #1f77b4;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+    }
+    .model-category {
+        font-size: 1.3rem;
+        color: #1f77b4;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+    .model-item {
+        font-size: 1.1rem;
+        color: #262730;
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+    }
+    .getting-started {
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+    .getting-started-title {
+        font-size: 2rem;
+        color: #1f77b4;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+    }
+    .step-item {
+        font-size: 1.2rem;
+        color: #262730;
+        margin-bottom: 0.8rem;
+        padding-left: 1rem;
     }
     .metric-card {
         background-color: #f0f2f6;
@@ -497,56 +558,80 @@ def main():
         show_results_page(ml_illustrator)
 
 def show_home_page():
+    # Welcome section
+    st.markdown('<div class="welcome-text">', unsafe_allow_html=True)
     st.markdown("""
     ## Welcome to ML Illustrator! 🚀
     
-    This application helps you build, train, and evaluate machine learning models with ease.
-    
-    ### Features:
-    - 🔗 **Google Colab Integration**: Connect to Google Colab for remote computation
-    - 📊 **Data Upload & Exploration**: Upload your CSV files and explore the dataset
-    - 🔧 **Model Selection**: Choose from various ML algorithms
-    - ⚙️ **Hyperparameter Tuning**: Configure model parameters
-    - 📈 **Comprehensive Evaluation**: Get detailed metrics and visualizations
-    - 🎨 **Beautiful Visualizations**: Interactive plots with Plotly
-    
-    ### Supported Models:
-    
-    **Classification Models:**
-    - Logistic Regression
-    - Random Forest
-    - Support Vector Machine
-    - Decision Tree
-    - K-Nearest Neighbors
-    - Gradient Boosting
-    - XGBoost
-    - LightGBM
-    - CatBoost
-    - Naive Bayes
-    
-    **Regression Models:**
-    - Linear Regression
-    - Ridge Regression
-    - Lasso Regression
-    - Random Forest
-    - Support Vector Regression
-    - Decision Tree
-    - K-Nearest Neighbors
-    - Gradient Boosting
-    - XGBoost
-    - LightGBM
-    - CatBoost
-    
-    ### Getting Started:
-    1. (Optional) Connect to **Google Colab** for remote computation
-    2. Go to **Data Upload** to upload your dataset
-    3. Navigate to **Model Configuration** to select and configure your model
-    4. View **Results & Visualization** to see the model performance
-    
-    ---
-    
-    **Note**: This application automatically detects whether your problem is classification or regression based on your target variable.
+    This comprehensive application empowers you to build, train, and evaluate machine learning models with unprecedented ease. 
+    Whether you're a data scientist, researcher, or enthusiast, our intuitive interface makes machine learning accessible to everyone.
     """)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Create two columns for better layout
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        # Features section
+        st.markdown('<div class="features-section">', unsafe_allow_html=True)
+        st.markdown('<h3 class="features-title">🚀 Key Features</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">🔗 <strong>Google Colab Integration</strong>: Connect to Google Colab for remote computation</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">📊 <strong>Data Upload & Exploration</strong>: Upload your CSV files and explore the dataset</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">🔧 <strong>Model Selection</strong>: Choose from various ML algorithms</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">⚙️ <strong>Hyperparameter Tuning</strong>: Configure model parameters</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">📈 <strong>Comprehensive Evaluation</strong>: Get detailed metrics and visualizations</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-item">🎨 <strong>Beautiful Visualizations</strong>: Interactive plots with Plotly</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Getting Started section
+        st.markdown('<div class="getting-started">', unsafe_allow_html=True)
+        st.markdown('<h3 class="getting-started-title">🎯 Getting Started</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="step-item">1. (Optional) Connect to <strong>Google Colab</strong> for remote computation</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-item">2. Go to <strong>Data Upload</strong> to upload your dataset</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-item">3. Navigate to <strong>Model Configuration</strong> to select and configure your model</div>', unsafe_allow_html=True)
+        st.markdown('<div class="step-item">4. View <strong>Results & Visualization</strong> to see the model performance</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    with col2:
+        # Supported Models section
+        st.markdown('<div class="models-section">', unsafe_allow_html=True)
+        st.markdown('<h3 class="models-title">🤖 Supported Models</h3>', unsafe_allow_html=True)
+        
+        # Classification Models
+        st.markdown('<div class="model-category">📊 Classification Models:</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Logistic Regression</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Random Forest</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Support Vector Machine</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Decision Tree</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• K-Nearest Neighbors</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Gradient Boosting</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• XGBoost</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• LightGBM</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• CatBoost</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Naive Bayes</div>', unsafe_allow_html=True)
+        
+        # Regression Models
+        st.markdown('<div class="model-category">📈 Regression Models:</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Linear Regression</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Ridge Regression</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Lasso Regression</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Random Forest</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Support Vector Regression</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Decision Tree</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• K-Nearest Neighbors</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• Gradient Boosting</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• XGBoost</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• LightGBM</div>', unsafe_allow_html=True)
+        st.markdown('<div class="model-item">• CatBoost</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Note section at the bottom
+    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; font-size: 1.1rem; color: #666; margin-top: 2rem;">
+        <strong>💡 Note:</strong> This application automatically detects whether your problem is classification or regression based on your target variable.
+    </div>
+    """, unsafe_allow_html=True)
 
 def show_data_upload_page(ml_illustrator):
     st.header("📊 Data Upload & Exploration")
