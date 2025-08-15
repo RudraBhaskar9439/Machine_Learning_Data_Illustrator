@@ -20,8 +20,6 @@ from sklearn.metrics import (
     confusion_matrix, classification_report, roc_curve, auc
 )
 import xgboost as xgb
-import lightgbm as lgb
-from catboost import CatBoostRegressor, CatBoostClassifier
 import warnings
 import os
 warnings.filterwarnings('ignore')
@@ -173,8 +171,6 @@ class MLIllustrator:
                 'K-Nearest Neighbors': KNeighborsClassifier,
                 'Gradient Boosting': GradientBoostingClassifier,
                 'XGBoost': xgb.XGBClassifier,
-                'LightGBM': lgb.LGBMClassifier,
-                'CatBoost': CatBoostClassifier,
                 'Naive Bayes': GaussianNB
             }
         else:
@@ -187,9 +183,7 @@ class MLIllustrator:
                 'Decision Tree': DecisionTreeRegressor,
                 'K-Nearest Neighbors': KNeighborsRegressor,
                 'Gradient Boosting': GradientBoostingRegressor,
-                'XGBoost': xgb.XGBRegressor,
-                'LightGBM': lgb.LGBMRegressor,
-                'CatBoost': CatBoostRegressor
+                'XGBoost': xgb.XGBRegressor
             }
     
     def get_hyperparameters(self, model_name):
@@ -250,7 +244,7 @@ class MLIllustrator:
             model_class = model_options[model_name]
             
             # Initialize model with hyperparameters
-            if model_name in ['XGBoost', 'LightGBM', 'CatBoost']:
+            if model_name in ['XGBoost']:
                 self.model = model_class(**hyperparameters, random_state=42, verbose=0)
             else:
                 self.model = model_class(**hyperparameters, random_state=42)
@@ -521,8 +515,6 @@ def show_home_page():
     - K-Nearest Neighbors
     - Gradient Boosting
     - XGBoost
-    - LightGBM
-    - CatBoost
     - Naive Bayes
     
     **Regression Models:**
@@ -535,8 +527,6 @@ def show_home_page():
     - K-Nearest Neighbors
     - Gradient Boosting
     - XGBoost
-    - LightGBM
-    - CatBoost
     
     ### Getting Started:
     1. (Optional) Connect to **Google Colab** for remote computation

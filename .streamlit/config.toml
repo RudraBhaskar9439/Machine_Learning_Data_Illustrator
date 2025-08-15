@@ -10,8 +10,7 @@ enableXsrfProtection = false
 [browser]
 gatherUsageStats = false
 
-[ui]
-navigationMode = "expanded"
+
 
 [client]
 showErrorDetails = false
