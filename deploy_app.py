@@ -24,9 +24,6 @@ import warnings
 import os
 warnings.filterwarnings('ignore')
 
-# Import Google Colab integration
-from colab_integration import show_colab_connection_page, integrate_colab_with_ml_illustrator
-
 # Set page config
 st.set_page_config(
     page_title="ML Illustrator",
@@ -465,7 +462,7 @@ def main():
     # Use radio buttons for better visibility
     page = st.sidebar.radio(
         "Navigation",
-        ["🏠 Home", "🔗 Google Colab", "📊 Data Upload", "🔧 Model Configuration", "📈 Results & Visualization"],
+        ["🏠 Home", "📊 Data Upload", "🔧 Model Configuration", "📈 Results & Visualization"],
         index=0
     )
     
@@ -482,8 +479,6 @@ def main():
     
     if page == "🏠 Home":
         show_home_page()
-    elif page == "🔗 Google Colab":
-        show_colab_connection_page()
     elif page == "📊 Data Upload":
         show_data_upload_page(ml_illustrator)
     elif page == "🔧 Model Configuration":
@@ -498,7 +493,6 @@ def show_home_page():
     This application helps you build, train, and evaluate machine learning models with ease.
     
     ### Features:
-    - 🔗 **Google Colab Integration**: Connect to Google Colab for remote computation
     - 📊 **Data Upload & Exploration**: Upload your CSV files and explore the dataset
     - 🔧 **Model Selection**: Choose from various ML algorithms
     - ⚙️ **Hyperparameter Tuning**: Configure model parameters
@@ -529,10 +523,9 @@ def show_home_page():
     - XGBoost
     
     ### Getting Started:
-    1. (Optional) Connect to **Google Colab** for remote computation
-    2. Go to **Data Upload** to upload your dataset
-    3. Navigate to **Model Configuration** to select and configure your model
-    4. View **Results & Visualization** to see the model performance
+    1. Go to **Data Upload** to upload your dataset
+    2. Navigate to **Model Configuration** to select and configure your model
+    3. View **Results & Visualization** to see the model performance
     
     ---
     
