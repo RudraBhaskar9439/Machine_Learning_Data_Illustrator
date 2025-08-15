@@ -452,30 +452,9 @@ class MLIllustrator:
 def main():
     st.markdown('<h1 class="main-header">🤖 ML Illustrator</h1>', unsafe_allow_html=True)
     
-    # Initialize session state for persistent configuration
+    # Initialize session state
     if 'ml_illustrator' not in st.session_state:
         st.session_state.ml_illustrator = MLIllustrator()
-    
-    # Initialize other session state variables for persistence
-    if 'data_loaded' not in st.session_state:
-        st.session_state.data_loaded = False
-    if 'data_prepared' not in st.session_state:
-        st.session_state.data_prepared = False
-    if 'model_trained' not in st.session_state:
-        st.session_state.model_trained = False
-    if 'selected_model_name' not in st.session_state:
-        st.session_state.selected_model_name = None
-    if 'selected_hyperparams' not in st.session_state:
-        st.session_state.selected_hyperparams = {}
-    # Per-model hyperparameter persistence store
-    if 'model_hyperparams' not in st.session_state:
-        st.session_state.model_hyperparams = {}
-    if 'target_column' not in st.session_state:
-        st.session_state.target_column = None
-    if 'feature_columns' not in st.session_state:
-        st.session_state.feature_columns = []
-    if 'test_size' not in st.session_state:
-        st.session_state.test_size = 0.2
     
     ml_illustrator = st.session_state.ml_illustrator
     
@@ -628,64 +607,36 @@ def show_model_config_page(ml_illustrator):
         st.warning("⚠️ Please upload data first in the Data Upload page.")
         return
     
-    # Show current configuration status
-    st.subheader("📋 Current Configuration Status")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.write("**Data Status:**")
-        st.write(f"• Data Loaded: {'✅' if st.session_state.data_loaded else '❌'}")
-        st.write(f"• Data Prepared: {'✅' if st.session_state.data_prepared else '❌'}")
-        if st.session_state.target_column:
-            st.write(f"• Target Column: {st.session_state.target_column}")
-    
-    with col2:
-        st.write("**Model Status:**")
-        st.write(f"• Model Selected: {'✅' if st.session_state.selected_model_name else '❌'}")
-        st.write(f"• Model Trained: {'✅' if st.session_state.model_trained else '❌'}")
-        if st.session_state.selected_model_name:
-            st.write(f"• Selected Model: {st.session_state.selected_model_name}")
-    
-    st.markdown("---")
-    
     # Data preparation section
     st.subheader("Data Preparation")
     
     column_info = st.session_state.column_info
     all_columns = column_info['columns']
     
-    # Target column selection with persistence
+    # Target column selection
     target_column = st.selectbox(
         "Select Target Column",
         all_columns,
-        index=all_columns.index(st.session_state.target_column) if st.session_state.target_column in all_columns else 0,
-        help="Choose the column you want to predict",
-        key="target_column_select"
+        help="Choose the column you want to predict"
     )
-    st.session_state.target_column = target_column
     
-    # Feature columns selection with persistence
-    default_features = st.session_state.feature_columns if st.session_state.feature_columns else [col for col in all_columns if col != target_column]
+    # Feature columns selection
     feature_columns = st.multiselect(
         "Select Feature Columns",
         [col for col in all_columns if col != target_column],
-        default=default_features,
-        help="Choose the columns to use as features",
-        key="feature_columns_multiselect"
+        default=[col for col in all_columns if col != target_column],
+        help="Choose the columns to use as features"
     )
-    st.session_state.feature_columns = feature_columns
     
-    # Test size with persistence
+    # Test size
     test_size = st.slider(
         "Test Set Size",
         min_value=0.1,
         max_value=0.5,
-        value=st.session_state.test_size,
+        value=0.2,
         step=0.05,
-        help="Percentage of data to use for testing",
-        key="test_size_slider"
+        help="Percentage of data to use for testing"
     )
-    st.session_state.test_size = test_size
     
     if st.button("Prepare Data", type="primary"):
         with st.spinner("Preparing data..."):
@@ -708,17 +659,11 @@ def show_model_config_page(ml_illustrator):
         
         # Get available models
         model_options = ml_illustrator.get_model_options()
-        model_names = list(model_options.keys())
-        default_index = model_names.index(st.session_state.selected_model_name) if st.session_state.selected_model_name in model_names else 0
-        
         selected_model = st.selectbox(
             "Select Model",
-            model_names,
-            index=default_index,
-            help="Choose the machine learning algorithm",
-            key="model_select"
+            list(model_options.keys()),
+            help="Choose the machine learning algorithm"
         )
-        st.session_state.selected_model_name = selected_model
         
         # Get hyperparameters for selected model
         hyperparams = ml_illustrator.get_hyperparameters(selected_model)
@@ -726,26 +671,17 @@ def show_model_config_page(ml_illustrator):
         if hyperparams:
             st.subheader("Hyperparameter Configuration")
             selected_hyperparams = {}
-            # Load previously saved hyperparameters for this model if available
-            model_saved_hps = st.session_state.model_hyperparams.get(selected_model, {})
             
             for param, options in hyperparams.items():
                 if isinstance(options, list):
-                    # Seed from per-model store, fall back to the last-used dict, then first option
-                    current_value = model_saved_hps.get(param, st.session_state.selected_hyperparams.get(param, options[0]))
-                    if current_value not in options:
-                        current_value = options[0]
-                    
-                    widget_key = f"hp_{selected_model}_{param}"
-                    selected_hyperparams[param] = st.selectbox(
-                        f"{param}", options, index=options.index(current_value), key=widget_key
-                    )
+                    if param == 'penalty' or param == 'kernel' or param == 'gamma':
+                        selected_hyperparams[param] = st.selectbox(f"{param}", options)
+                    else:
+                        selected_hyperparams[param] = st.selectbox(f"{param}", options)
                 else:
                     selected_hyperparams[param] = options
             
-            # Persist both globally and per-model
             st.session_state.selected_hyperparams = selected_hyperparams
-            st.session_state.model_hyperparams[selected_model] = selected_hyperparams
         else:
             st.info("This model doesn't require hyperparameter tuning.")
             st.session_state.selected_hyperparams = {}
