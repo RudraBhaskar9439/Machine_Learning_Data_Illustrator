@@ -1,0 +1,16 @@
+# System dependencies for ML Illustrator
+# These packages will be installed in the Streamlit Cloud environment
+
+# For XGBoost and other ML libraries
+libgomp1
+libopenblas-dev
+liblapack-dev
+
+# For visualization libraries
+libfreetype6-dev
+libpng-dev
+libjpeg-dev
+
+# For data processing
+libhdf5-dev
+libnetcdf-dev
