@@ -195,22 +195,7 @@ def show_colab_connection_page():
             else:
                 st.warning("Please enter some code to execute.")
         
-        # File upload section
-        st.subheader("Upload Data to Colab")
-        uploaded_file = st.file_uploader(
-            "Choose a file to upload to Google Colab",
-            type=['csv', 'json', 'txt', 'py'],
-            help="Upload files to be processed on Google Colab"
-        )
-        
-        if uploaded_file is not None:
-            if st.button("Upload to Colab"):
-                success = colab_integration.upload_data_to_colab(
-                    uploaded_file.read(),
-                    uploaded_file.name
-                )
-                if success:
-                    st.success(f"✅ {uploaded_file.name} uploaded successfully!")
+
         
         # Download results section
         st.subheader("Download Results")
